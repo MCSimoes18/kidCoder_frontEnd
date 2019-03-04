@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Kid Coder</title>
+    <script src="lib/codemirror.js"></script>
+    <link rel="stylesheet" href="lib/codemirror.css">
+    <script src="runmode.js"></script>
+    <script src="mode/javascript/javascript.js"></script>
+  </head>
+  <body>
+    <div id="before-login">
+      <form class="login">
+      <input id="input-un" type="text" name="name" value="" placeholder="enter username">
+      <button id="login-btn" type"submit"> Create Login Or Sign In</button>
+
+      </form>
+    </div> <!-- end login-->
+
+    <div id="after-login">
+    <div id="game-graphics">
+    </div>
+
+    <div id="text-editor">
+      <section id=demo>
+        <h2>This is CodeMirror</h2>
+        <form style="position: relative; margin-top: .5em;"><textarea id=demotext>
+          <!-- Create a simple CodeMirror instance -->
+          <link rel="stylesheet" href="lib/codemirror.css">
+          <script src="lib/codemirror.js"></script>
+          <script>
+            var editor = CodeMirror.fromTextArea(myTextarea, {
+              lineNumbers: true
+            });
+          </script></textarea>
+          </form>
+            <button id="run-text"> Run </button>
+            <div id="inner-text"> </div>
+            <script>
+              var editor = CodeMirror.fromTextArea(document.getElementById("demotext"), {
+                lineNumbers: true,
+                mode: "text/html",
+                matchBrackets: true
+              });
+            </script>
+          </section>
+      </div> <!--end text-editor div -->
+    </div> <!--end after-login div -->
+
+
+
+        <script src="index.js"></script>
+  </body>
+</html>
