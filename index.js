@@ -44,8 +44,8 @@ function createUser(loginInput){
     }) // end of fetch
     .then(response => response.json())
     .then(myJson => {
-      newUser = myJson
-      console.log(newUser)
+      currentUser = myJson
+      console.log(currentUser)
       // newUser = myJson
       // allUsers.push(newUser)
     })
@@ -55,11 +55,9 @@ function createUser(loginInput){
 function findUser(e){
   e.preventDefault()
   let loginInput = e.target.querySelector('#input-un').value
-  let currentUser
-  if (allUsers.find(user => user.name == loginInput)){
-    currentUser = user
-  }
-  else if (allUsers.forEach(u => !u.name.includes(loginInput)){
+  let currentUser = allUsers.find(user => user.name == loginInput)
+    if (currentUser == undefined){
       createUser(loginInput)
+    }
+    console.log(currentUser)
   }
-}
