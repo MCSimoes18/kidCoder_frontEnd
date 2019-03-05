@@ -137,15 +137,18 @@ function updateUserRound(currentUserRound, character){
 
 function renderThisGame(currentUser){
   // debugger
+  //put a modal here to put next level on the screen
   let currentUserRound = allUserRounds.find(user_round => user_round.user_id == currentUser.id)
   currentRound = allRounds.find(round => round.id == currentUserRound.round_id)
   // debugger
+  innerText.innerText = ''
   gameGraphics.innerHTML = ''
   gameGraphics.innerHTML = `
     <h1> Level ${currentRound.level} </h1>
     <h3> Challenge: ${currentRound.challenge} </h3>
+    <h3> SCORE: ${currentUser.score} </h3>
     <div id="container">
-      <img id="background-image" src= ${currentRound.background_image} style="width:100%">
+      <img id="background-image" src= ${currentRound.background_image} style="width:900px">
     </div>
     `
   characterList = []
@@ -156,15 +159,16 @@ function renderThisGame(currentUser){
   document.querySelector('#run-text').addEventListener('click', function(e){
     let character = characterList[0]
     let demoText = editor.getValue()
-    debugger
-
+    // debugger
     CodeMirror.runMode(demoText,'application/javascript', innerText)
-    console.log(currentRound)
+    //write tests for each level
     if (currentRound.level == 1) {
+      currentUser.score = 20
       if (innerText.innerText == 14) {
         updateUserRound(currentUserRound, character)
       }
     } else if (currentRound.level == 2) {
+      currentUser.score = 40
       if (innerText.innerText == 16) {
         updateUserRound(currentUserRound, character)
       }
@@ -206,7 +210,7 @@ class Character {
     this.element.style.position = "absolute";
     // this.element.setAttribute("style", 'z-index=1')
     this.element.style.left = "0px";
-    this.element.style.top = "420px";
+    this.element.style.top = "220px";
     this.element.style.width = "500px";
     // let background = document.querySelector('#background-image')
     // background.setAttribute('style', 'z-index=-1')
@@ -220,7 +224,7 @@ class Character {
         // console.log("second", this);
         let currentPosition = parseInt(this.element.style.left);
         this.element.style.left = currentPosition + 1 + "px";
-        if (currentPosition == 700) {
+        if (currentPosition == 750) {
           this.stop()
           renderSomething(this.element)
         }
