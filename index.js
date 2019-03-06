@@ -1,3 +1,9 @@
+// import {assert} from "chai"
+console.log(chai)
+// var assert = chai.assert
+
+// const { assert } = require('chai');
+
 editor.setValue("Welcome")
 
 let allUsers = [];
@@ -7,6 +13,8 @@ let characterList = []
 let currentUserArr = []
 let currentUser
 let currentRound
+let currentUserRound
+let character
 
 let runText = document.querySelector('#run-text')
 let innerText = document.querySelector('#inner-text')
@@ -82,7 +90,7 @@ function findUser(e){
     }
     afterLogin.style.display = 'block'
     beforeLogin.style.display = 'none'
-    let currentUserRound = allUserRounds.find(user_round => user_round.user_id == currentUser.id)
+    currentUserRound = allUserRounds.find(user_round => user_round.user_id == currentUser.id)
     renderThisGame(currentUser)
   }
 
@@ -128,8 +136,10 @@ function updateUserRound(currentUserRound, character){
       }
     })
   })
-  .then(response => response.json())
-  .then(myJson => {
+  .then(function(response) {
+    return response.json();
+  })
+  .then(function(myJson) {
     let currentPosition = parseInt(character.element.style.left);
     character.walkEast()
   })
@@ -152,30 +162,87 @@ function renderThisGame(currentUser){
     </div>
     `
   characterList = []
-  let character = new Character
+  character = new Character
 
   characterList.push(character)
   editor.setValue(currentRound.prompt)
   document.querySelector('#run-text').addEventListener('click', function(e){
-    let character = characterList[0]
+    character = characterList[0]
     let demoText = editor.getValue()
     // debugger
     CodeMirror.runMode(demoText,'application/javascript', innerText)
     //write tests for each level
     if (currentRound.level == 1) {
       currentUser.score = 20
-      if (innerText.innerText == 14) {
-        updateUserRound(currentUserRound, character)
+    if (demoText.includes("{" && "}")){
+        invokeFunction = demoText.split('{').pop().split('}')[0];
+        runLevelOneTest(invokeFunction)
       }
-    } else if (currentRound.level == 2) {
+
+      // updateUserScore(currentUser.score)
+    }
+      // if (innerText.innerText == 14) {
+      //   var a = 5
+      //   var b = 7
+      //   chai.expect(a + b, 12)
+      //   // var foo = 'foo'
+      //   // debugger
+      //   // expect.typeOf(foo, 'string')
+      //   updateUserRound(currentUserRound, character)
+    // }
+    else if (currentRound.level == 2) {
       currentUser.score = 40
+      // updateUserScore(currentUser.score)
       if (innerText.innerText == 16) {
         updateUserRound(currentUserRound, character)
       }
     }
-
   })
 }
+
+function runLevelOneTest(invokeFunction){
+  var adder = new Function("a", "b", invokeFunction);
+  var adderReturn = adder(4,10)
+  var addFunc = new Function("a", "b", "return a + b")
+  var addReturn= addFunc(4,10)
+  if (innerText.innerText == "undefined") {
+    innerText.innerText = "Please try again, return is undefined"
+    console.log("i didnt work 1")
+  }
+  else if (adderReturn != addReturn){
+    console.log("i didnt work 2")
+    innerText.innerText = "Please try again, function does not return correct value"
+  }
+  else if (chai.expect(adderReturn).to.equal(addReturn)){
+    console.log("YOU DID IT!")
+    updateUserRound(currentUserRound, character)
+  }
+}
+
+
+// function updateUserScore(currentUserScore){
+//   let userName = currentUser.name
+//   fetch(`http://localhost:3000/api/v1/users/${currentUser.id}`, {
+//     method: "PATCH",
+//     headers: {
+//       "Content-Type": 'application/json',
+//       "Accept": 'application/json'
+//     },
+//     body: JSON.stringify({
+//       user: {
+//         name: userName,
+//         score: currentUserScore
+//       } //closes user
+//     }) // closes body
+//   }) // closes fetch
+//   .then(response => response.json())
+//   .then(myJson => {
+//   currentUser = allUsers.find(user => user.id == myJson.id)
+//   currentUser.score = myJson.score
+//     })
+// } // closes func
+
+
 let hint = false
 
 hintBtn.addEventListener('click', renderHint)
@@ -206,12 +273,12 @@ class Character {
     this.speed = 5;
     this.movement = null;
     this.characterAssets = "assets/character";
-    this.element.src = `file:///Users/sivanadler/Downloads/Untitled%20(1).svg`;
+    this.element.src = `http://hanatemplate.com/images/flying-cartoon-characters-5.png`;
     this.element.style.position = "absolute";
     // this.element.setAttribute("style", 'z-index=1')
-    this.element.style.left = "0px";
-    this.element.style.top = "220px";
-    this.element.style.width = "500px";
+    this.element.style.left = "10px";
+    this.element.style.top = "350px";
+    this.element.style.width = "200px";
     // let background = document.querySelector('#background-image')
     // background.setAttribute('style', 'z-index=-1')
     document.body.appendChild(this.element);
@@ -219,26 +286,27 @@ class Character {
 
   walkEast() {
     // console.log("first", this);
+    clearInterval(this.movement);
     this.movement = setInterval(
       function() {
         // console.log("second", this);
         let currentPosition = parseInt(this.element.style.left);
         this.element.style.left = currentPosition + 1 + "px";
-        if (currentPosition == 750) {
+        if (currentPosition == 700) {
           this.stop()
           renderSomething(this.element)
         }
       }.bind(this),
       this.speed
     );
-    this.element.src = `file:///Users/sivanadler/Downloads/Untitled%20(1).svg`;
+    this.element.src = `http://hanatemplate.com/images/flying-cartoon-characters-5.png`;
   }
 
   //file:///Users/sivanadler/Downloads/Untitled.svg
 
   stop() {
     clearInterval(this.movement);
-    this.element.src = `file:///Users/sivanadler/Downloads/Untitled%20(1).svg`;
+    this.element.src = `http://hanatemplate.com/images/flying-cartoon-characters-5.png`;
   }
 
 }
