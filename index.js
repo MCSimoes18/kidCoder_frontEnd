@@ -118,28 +118,33 @@ function createUserRound(currentUser){
   }
 
 function updateUserRound(currentUserRound, character){
+  debugger
   let user_id = currentUserRound.user_id
-  let round_id = ++currentUserRound.round_id
+  let round_id = currentUserRound.round_id + 1
+  let data = {
+      user_round: {
+        user_id: user_id,
+        round_id: round_id
+    }
+  }
+  console.log(data)
   console.log(user_id)
   console.log(round_id)
-  // debugger
   fetch(`http://localhost:3000/api/v1/user_rounds/${currentUserRound.id}`, {
     method: "PATCH",
     headers: {
       "Content-Type": 'application/json',
       "Accept": 'application/json'
     },
-    body: JSON.stringify({
-      user_round: {
-        user_id: user_id,
-        round_id: round_id
-      }
-    })
+    body: JSON.stringify(data),
   })
   .then(function(response) {
     return response.json();
   })
   .then(function(myJson) {
+    currentUserRound = allUserRounds.find(userRound => userRound.id == myJson.id)
+    currentUserRound.round_id = myJson.round_id
+    debugger
     let currentPosition = parseInt(character.element.style.left);
     character.walkEast()
   })
@@ -148,6 +153,7 @@ function updateUserRound(currentUserRound, character){
 function renderThisGame(currentUser){
   // debugger
   //put a modal here to put next level on the screen
+  debugger
   let currentUserRound = allUserRounds.find(user_round => user_round.user_id == currentUser.id)
   currentRound = allRounds.find(round => round.id == currentUserRound.round_id)
   // debugger
@@ -174,27 +180,28 @@ function renderThisGame(currentUser){
     //write tests for each level
     if (currentRound.level == 1) {
       currentUser.score = 20
-    if (demoText.includes("{" && "}")){
+      if (demoText.includes("{" && "}")){
         invokeFunction = demoText.split('{').pop().split('}')[0];
         runLevelOneTest(invokeFunction)
       }
-
-      // updateUserScore(currentUser.score)
     }
-      // if (innerText.innerText == 14) {
-      //   var a = 5
-      //   var b = 7
-      //   chai.expect(a + b, 12)
-      //   // var foo = 'foo'
-      //   // debugger
-      //   // expect.typeOf(foo, 'string')
-      //   updateUserRound(currentUserRound, character)
-    // }
     else if (currentRound.level == 2) {
       currentUser.score = 40
       // updateUserScore(currentUser.score)
-      if (innerText.innerText == 16) {
-        updateUserRound(currentUserRound, character)
+      if (demoText.includes("{" && "}")){
+        invokeFunction = demoText.split('{').pop().split('}')[0];
+        runLevelTwoTest(invokeFunction)
+      }
+    }
+    else if (currentRound.level == 3) {
+      currentUser.score = 60
+      // updateUserScore(currentUser.score)
+      if (demoText.includes("{" && "}")){
+        inputWithBrackets = demoText.split('sayHello(name)')[1];
+        invokeFunction = inputWithBrackets.substring(1, inputWithBrackets.length - 3)
+        // invokeFunction = inputWithBrackets.split('{').pop().split('}')[0]
+        debugger
+        runLevelThreeTest(invokeFunction)
       }
     }
   })
@@ -215,9 +222,49 @@ function runLevelOneTest(invokeFunction){
   }
   else if (chai.expect(adderReturn).to.equal(addReturn)){
     console.log("YOU DID IT!")
+    debugger
     updateUserRound(currentUserRound, character)
   }
 }
+
+function runLevelTwoTest(invokeFunction){
+  var inputMultiply = new Function("a", "b", "c", invokeFunction);
+  var inputMultiplyReturn = inputMultiply(4,10,2)
+  var ourMultiplyFunc = new Function("a", "b", "c", "return a * b * c")
+  var ourMultiplyReturn = ourMultiplyFunc(4,10,2)
+  if (innerText.innerText == "undefined") {
+    innerText.innerText = "Please try again, return is undefined"
+    console.log("i didnt work 1")
+  }
+  else if (inputMultiplyReturn != ourMultiplyReturn){
+    console.log("i didnt work 2")
+    innerText.innerText = "Please try again, function does not return correct value"
+  }
+  else if (chai.expect(inputMultiplyReturn).to.equal(ourMultiplyReturn)){
+    console.log("YOU DID IT!")
+    updateUserRound(currentUserRound, character)
+  }
+}
+
+function runLevelThreeTest(invokeFunction){
+  debugger
+  var inputSayHello = new Function("name", invokeFunction)
+  var inputSayHelloReturn = inputSayHello("Sam")
+  var ourSayHelloFunc = new Function("name", "return `Hello ${name}`")
+  var ourSayHelloReturn = ourSayHelloFunc("Sam")
+  if (chai.expect(inputSayHelloReturn).to.equal(ourSayHelloReturn)){
+    console.log("YOU DID IT!")
+    updateUserRound(currentUserRound, character)
+  }
+  else {
+    console.log("didnt work")
+  }
+}
+
+
+
+
+
 
 
 // function updateUserScore(currentUserScore){
@@ -259,10 +306,10 @@ function renderHint(e){
 }
 
 function renderSomething(character){
-  let currentUser = currentUserArr[0]
-  // debugger
+  currentUser = currentUserArr[0]
   character.remove()
   characterList = []
+  let currentUserRound = allUserRounds.find(user_round => user_round.user_id == currentUser.id)
   renderThisGame(currentUser)
 }
 
