@@ -118,7 +118,6 @@ function createUserRound(currentUser){
   }
 
 function updateUserRound(currentUserRound, character){
-  debugger
   let user_id = currentUserRound.user_id
   let round_id = currentUserRound.round_id + 1
   let data = {
@@ -144,19 +143,15 @@ function updateUserRound(currentUserRound, character){
   .then(function(myJson) {
     currentUserRound = allUserRounds.find(userRound => userRound.id == myJson.id)
     currentUserRound.round_id = myJson.round_id
-    debugger
     let currentPosition = parseInt(character.element.style.left);
     character.walkEast()
   })
 }
 
 function renderThisGame(currentUser){
-  // debugger
   //put a modal here to put next level on the screen
-  debugger
   let currentUserRound = allUserRounds.find(user_round => user_round.user_id == currentUser.id)
   currentRound = allRounds.find(round => round.id == currentUserRound.round_id)
-  // debugger
   innerText.innerText = ''
   gameGraphics.innerHTML = ''
   gameGraphics.innerHTML = `
@@ -175,7 +170,6 @@ function renderThisGame(currentUser){
   document.querySelector('#run-text').addEventListener('click', function(e){
     character = characterList[0]
     let demoText = editor.getValue()
-    // debugger
     CodeMirror.runMode(demoText,'application/javascript', innerText)
     //write tests for each level
     if (currentRound.level == 1) {
@@ -200,8 +194,24 @@ function renderThisGame(currentUser){
         inputWithBrackets = demoText.split('sayHello(name)')[1];
         invokeFunction = inputWithBrackets.substring(1, inputWithBrackets.length - 3)
         // invokeFunction = inputWithBrackets.split('{').pop().split('}')[0]
-        debugger
         runLevelThreeTest(invokeFunction)
+      }
+    }
+    else if (currentRound.level == 4) {
+      currentUser.score = 80
+      // updateUserScore(currentUser.score)
+      if (demoText.includes("{" && "}")){
+        invokeFunction = demoText.split('{').pop().split('}')[0];
+        runLevelFourTest(invokeFunction)
+      }
+    }
+    else if (currentRound.level == 5) {
+      currentUser.score = 100
+      // updateUserScore(currentUser.score)
+      if (demoText.includes("{" && "}")){
+        beforeIf = demoText.split('if (')[1]
+        afterIf = beforeIf.split(')')[0]
+        runLevelFiveTest(afterIf)
       }
     }
   })
@@ -222,7 +232,6 @@ function runLevelOneTest(invokeFunction){
   }
   else if (chai.expect(adderReturn).to.equal(addReturn)){
     console.log("YOU DID IT!")
-    debugger
     updateUserRound(currentUserRound, character)
   }
 }
@@ -247,19 +256,62 @@ function runLevelTwoTest(invokeFunction){
 }
 
 function runLevelThreeTest(invokeFunction){
-  debugger
   var inputSayHello = new Function("name", invokeFunction)
   var inputSayHelloReturn = inputSayHello("Sam")
   var ourSayHelloFunc = new Function("name", "return `Hello ${name}`")
   var ourSayHelloReturn = ourSayHelloFunc("Sam")
-  if (chai.expect(inputSayHelloReturn).to.equal(ourSayHelloReturn)){
+
+  if (innerText.innerText == "undefined") {
+    innerText.innerText = "Please try again, return is undefined"
+    console.log("i didnt work 1")
+  }
+  else if (inputSayHelloReturn != ourSayHelloReturn){
+    console.log("i didnt work 2")
+    innerText.innerText = "Please try again, function does not return correct value"
+  }
+  else if (chai.expect(inputSayHelloReturn).to.equal(ourSayHelloReturn)){
     console.log("YOU DID IT!")
     updateUserRound(currentUserRound, character)
   }
-  else {
-    console.log("didnt work")
+}
+
+function runLevelFourTest(invokeFunction){
+  var inputPush = new Function ("candyLand", "candy", invokeFunction)
+  var inputPushReturn = inputPush(["Kit Kat", "Reeses Cup", "M&Ms"], "Snickers")
+  var ourInnerFunc = "candyLand.push(candy)" + "\n" + "return candyLand"
+  var ourPushFunc = new Function ("candyLand", "candy", ourInnerFunc)
+  var ourPushReturn = ourPushFunc(["Kit Kat", "Reeses Cup", "M&Ms"], "Snickers")
+  if (innerText.innerText == "undefined") {
+    innerText.innerText = "Please try again, return is undefined"
+    console.log("i didnt work 1")
+  }
+  else if (ourPushReturn[3] != inputPushReturn[3]){
+    console.log("i didnt work 2")
+    innerText.innerText = "Please try again, function does not return correct value"
+  }
+  else if (chai.expect(ourPushReturn[3]).to.equal(inputPushReturn[3])){
+    console.log("YOU DID IT!")
+    updateUserRound(currentUserRound, character)
   }
 }
+
+function runLevelFiveTest(afterIf){
+  if (innerText.innerText == "undefined") {
+    innerText.innerText = "Please try again, return is undefined"
+    console.log("i didnt work 1")
+  }
+  else if (afterIf != "height > 48"){
+    console.log("i didnt work 2")
+    innerText.innerText = "Please try again, function does not return correct value"
+  }
+  else if (chai.expect(afterIf).to.equal("height > 48")){
+    console.log("YOU DID IT!")
+    updateUserRound(currentUserRound, character)
+  }
+}
+
+
+
 
 
 
