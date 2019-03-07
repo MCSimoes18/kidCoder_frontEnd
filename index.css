@@ -1,0 +1,148 @@
+.img{
+
+}
+
+@-webkit-keyframes glow {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #20F4DB, 0 0 40px #20F4DB, 0 0 50px #20F4DB, 0 0 60px #20F4DB, 0 0 70px #20F4DB;
+  }
+
+  to {
+    text-shadow: 0 0 40px #fff, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6, 0 0 90px #ff4da6, 0 0 100px #ff4da6;
+  }
+}
+
+@-webkit-keyframes glow1 {
+  from {
+    box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #20F4DB, 0 0 40px #20F4DB, 0 0 50px #20F4DB, 0 0 60px #20F4DB, 0 0 70px #20F4DB;
+  }
+
+  to {
+    box-shadow: 0 0 40px #fff, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6, 0 0 90px #ff4da6, 0 0 100px #ff4da6;
+  }
+}
+#game-over-txt{
+  z-index: 1;
+  position: fixed;
+  top: 33%;
+  bottom: 33%;
+  left: 33%;
+  right: 33%;
+  text-align: center;
+  background-color: white;
+  border-radius: 5px;
+  width: 500px;
+  padding: 20px;
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  -moz-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+#header{
+  font-family:'Retronoid';
+  font-size: 100px;
+  display: block;
+  text-align: center;
+  vertical-align: middle;
+  margin-left: auto;
+  margin-right: auto;
+  color: white;
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  -moz-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+#background-image{
+  /* position: absolute; */
+  /* margin: auto; */
+  z-index: -1;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#level{
+  font-family:'Retronoid';
+  font-size: 60px;
+  color: white;
+}
+
+#score{
+  font-family: 'arial';
+  color: white;
+  background-color: pink;
+  width: 830px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  position: absolute;
+  z-index: 0;
+}
+
+#not-computer{
+  z-index: -1;
+  align-items: center;
+  position: absolute;
+  left: 360px;
+}
+
+
+#container{
+  width: 1550px;
+  position: absolute;
+  margin-top: -230px;
+  align-items: center;
+}
+
+.new{
+  margin: auto;
+}
+
+#challenge{
+  font-family: 'arial';
+  color: white;
+  background-color: pink;
+  width: 840px;
+  height: 100px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 10px;
+  position: absolute;
+  margin-top: -70px;
+  z-index: 0;
+}
+
+#form{
+  z-index: 1;
+  position: fixed;
+  top: 33%;
+  bottom: 33%;
+  left: 33%;
+  right: 33%;
+  text-align: center;
+  background-color: #060508;
+  color: white;
+  border-radius: 5px;
+  width: 500px;
+  padding: 20px;
+  -webkit-animation: glow1 1s ease-in-out infinite alternate;
+  -moz-animation: glow1 1s ease-in-out infinite alternate;
+  animation: glow1 1s ease-in-out infinite alternate;
+}
+
+#pre-login{
+  background-color: black;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.game-over{
+  background-image: url("https://www.pixelstalk.net/wp-content/uploads/2016/06/HD-Wallpapers-Gif-Download.gif");
+  background-repeat: no-repeat;
+  position: absolute;
+  background-size: cover;
+}
+
+#you-win{
+  font-family:'Retronoid';
+  font-size: 80px;
+}

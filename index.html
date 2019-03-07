@@ -5,6 +5,8 @@
     <title>Kid Coder</title>
     <script src="lib/codemirror.js"></script>
     <link rel="stylesheet" href="lib/codemirror.css">
+    <link href=“https://fonts.googleapis.com/css?family=Bungee+Shade” rel=“stylesheet”>
+    <link rel="stylesheet" href="index.css">
     <script src="runmode.js"></script>
     <script src="mode/javascript/javascript.js"></script>
     <script src="./node_modules/chai/chai.js"></script>
@@ -12,17 +14,22 @@
   <body>
 
     <div id="before-login">
-      <form class="login">
-      <h1>Welcome! What's Your Name?</h1>
-      <input id="input-un" type="text" name="name" value="" placeholder="enter username"> <br>
-      <button id="login-btn" type"submit"> Create Login Or Sign In</button>
+      <h1 id="header">// SUPERscript</h1>
+      <br><br>
+      <div id="form">
+        <form class="login">
+        <h1>Welcome! What's Your Name?</h1>
+        <input id="input-un" type="text" name="name" value="" placeholder="enter username"> <br>
+        <button id="login-btn" type"submit"> Create Login Or Sign In</button>
 
-      </form>
+        </form>
+      </div>
+
     </div> <!-- end login-->
 
     <div id="after-login">
-    <div id="game-graphics">
-    </div>
+      <div id="game-graphics">
+      </div>
 
     <div id="text-editor">
       <section id=demo>
@@ -57,5 +64,6 @@
 
     <script src="index.js"></script>
     <script src="test/indexTest.js"></script>
+
   </body>
 </html>
