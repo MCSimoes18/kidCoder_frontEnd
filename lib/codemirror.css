@@ -5,7 +5,7 @@
   font-family: monospace;
   width: 900px;
   height: 200px;
-  color: blue;
+  color: black;
   direction: ltr;
 }
 
@@ -25,16 +25,17 @@
 /* GUTTER */
 
 .CodeMirror-gutters {
-  border-right: 1px solid red;
-  background-color: pink;
+  border-right: 1px solid white;
+  background-color: #66ABA3;
   white-space: nowrap;
 }
 .CodeMirror-linenumbers {}
 .CodeMirror-linenumber {
   padding: 0 3px 0 5px;
   min-width: 20px;
-  text-align: right;
-  color: #999;
+  text-align: center;
+  color: black;
+  font-size: 20px;
   white-space: nowrap;
 }
 
@@ -108,7 +109,7 @@
 
 /* DEFAULT THEME */
 
-.cm-s-default .cm-header {color: blue;}
+.cm-s-default .cm-header {color: black;}
 .cm-s-default .cm-quote {color: #090;}
 .cm-negative {color: #d44;}
 .cm-positive {color: #292;}
@@ -161,7 +162,7 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #a22;}
   left: 360px;
   margin-top: 650px;
   overflow: hidden;
-  background: white;
+  background: #C4EFEA;
   width: 900px;
   height: 200px;
 }
@@ -247,7 +248,7 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #a22;}
   border-width: 0;
   background: transparent;
   font-family: inherit;
-  font-size: inherit;
+  font-size: 20px;
   margin: 0;
   white-space: pre;
   word-wrap: normal;

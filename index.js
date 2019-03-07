@@ -26,13 +26,20 @@ document.addEventListener("DOMContentLoaded", function(event) {
   fetchUsers()
   fetchUserRounds()
   fetchRounds()
+  logInPage()
+
+
+});
+function logInPage(){
   if (login) {
     let body = document.querySelector('body')
     body.setAttribute('id', 'pre-login')
+    beforeLogin.style.display = 'block'
     afterLogin.style.display = 'none'
+    login.addEventListener('submit', findUser)
+
   }
-  login.addEventListener('submit', findUser)
-});
+}
 
 function fetchRounds(){
   fetch ('http://localhost:3000/api/v1/rounds')
@@ -86,9 +93,11 @@ function findUser(e){
     if (currentUser == undefined){
       createUser(loginInput)
     }
+    currentUserRound = allUserRounds.find(user_round => user_round.user_id == currentUser.id)
+    currentRound = allRounds.find(round => round.id == currentUserRound.round_id)
     afterLogin.style.display = 'block'
     beforeLogin.style.display = 'none'
-    currentUserRound = allUserRounds.find(user_round => user_round.user_id == currentUser.id)
+
     renderThisGame(currentUser)
   }
 
@@ -116,8 +125,14 @@ function createUserRound(currentUser){
   }
 
 function updateUserRound(currentUserRound, character){
-  let user_id = currentUserRound.user_id
-  let round_id = currentUserRound.round_id + 1
+  if (currentUserRound.round_id == 6) {
+
+    user_id = currentUserRound.user_id
+    round_id = 1
+  } else {
+    user_id = currentUserRound.user_id
+    round_id = currentUserRound.round_id + 1
+  }
   let data = {
       user_round: {
         user_id: user_id,
@@ -136,42 +151,64 @@ function updateUserRound(currentUserRound, character){
     return response.json();
   })
   .then(function(myJson) {
+    if (myJson.round_id == 1) {
+
+      currentUserRound = allUserRounds.find(userRound => userRound.id == myJson.id)
+      currentUserRound.round_id = myJson.round_id
+      let body = document.querySelector('body')
+      body.setAttribute('class', 'game-again')
+      document.querySelector('#game-over-txt').remove()
+      logInPage()
+    }
     currentUserRound = allUserRounds.find(userRound => userRound.id == myJson.id)
     currentUserRound.round_id = myJson.round_id
     let currentPosition = parseInt(character.element.style.left);
     character.walkEast()
+    playdatsound()
   })
+}
+
+// document.addEventListener('click', playdatsound)
+
+function playdatsound(){
+  console.log("here")
+  let sound = new Sound('winning.wav')
+  sound.play()
 }
 
 function renderThisGame(currentUser){
   //put a modal here to put next level on the screen
   let currentUserRound = allUserRounds.find(user_round => user_round.user_id == currentUser.id)
   currentRound = allRounds.find(round => round.id == currentUserRound.round_id)
+  beforeLogin.style.display = 'none'
+
   if (currentRound.level == 6) {
     textEditor.innerHTML = ""
     let body = document.querySelector('body')
-    body.setAttribute('class', 'new')
+    body.setAttribute('class', 'game-over')
     afterLogin.innerHTML = `
       <!-- <div id="game-over"> -->
         <div id="game-over-txt">
           <h1 id="you-win"> YOU WON! </h1>
           <h3 class="game-text"> YOU ARE A JAVASCRIPT MASTER </h3>
           <br>
-          <h3 class="game-text"> YOUR SCORE: 100 Points </h3>
+          <h3 class="game-text"> YOUR SCORE: ${currentUser.score} </h3>
           <button id="play-again"> Play Again? </button>
         <!-- </div> -->
       </div>`
-      debugger
+      // debugger
+      let playAgainBtn = document.querySelector('#play-again')
+      playAgainBtn.addEventListener('click', clickPlayAgain)
     } else {
       innerText.innerText = ''
       gameGraphics.innerHTML = ''
       gameGraphics.innerHTML = `
-        <h1 id="level"> Level ${currentRound.level} </h1>
+        <h1 id="level" class="header"> Level ${currentRound.level} </h1>
         <img src='https://uniqueideas.co.uk/wp-content/uploads/2013/09/apple-air.png' id='container'>
           <div id="not-computer">
-            <h3 id='score'> SCORE: ${currentUser.score} </h3>
+            <h3 id='score' class="level-text"> SCORE: ${currentUser.score} </h3>
             <img id="background-image" src= ${currentRound.background_image} style="width:850px;height:500px">
-            <h3 id='challenge'> Challenge: ${currentRound.challenge} </h3>
+            <h3 id='challenge' class="level-text"> Challenge: ${currentRound.challenge} </h3>
           </div>
         <br>
         `
@@ -185,7 +222,6 @@ function renderThisGame(currentUser){
         let demoText = editor.getValue()
         CodeMirror.runMode(demoText,'application/javascript', innerText)
         if (currentRound.level == 1) {
-          currentUser.score = 20
           updateUserScore(currentUser.score)
           if (demoText.includes("{" && "}")){
             invokeFunction = demoText.split('{').pop().split('}')[0];
@@ -193,7 +229,6 @@ function renderThisGame(currentUser){
           }
         }
         else if (currentRound.level == 2) {
-          currentUser.score = 40
           updateUserScore(currentUser.score)
           if (demoText.includes("{" && "}")){
             invokeFunction = demoText.split('{').pop().split('}')[0];
@@ -201,7 +236,6 @@ function renderThisGame(currentUser){
           }
         }
         else if (currentRound.level == 3) {
-          currentUser.score = 60
           updateUserScore(currentUser.score)
           if (demoText.includes("{" && "}")){
             inputWithBrackets = demoText.split('sayHello(name)')[1];
@@ -210,7 +244,6 @@ function renderThisGame(currentUser){
           }
         }
         else if (currentRound.level == 4) {
-          currentUser.score = 80
           updateUserScore(currentUser.score)
           if (demoText.includes("{" && "}")){
             invokeFunction = demoText.split('{').pop().split('}')[0];
@@ -218,7 +251,6 @@ function renderThisGame(currentUser){
           }
         }
         else if (currentRound.level == 5) {
-          currentUser.score = 100
           updateUserScore(currentUser.score)
           if (demoText.includes("{" && "}")){
             beforeIf = demoText.split('if (')[1]
@@ -230,20 +262,40 @@ function renderThisGame(currentUser){
     }
 
 }
+function clickPlayAgain(e){
+  if (e.target.id == 'play-again') {
+    updateUserRound(currentUserRound, character)
+  }
+}
 
 function runLevelOneTest(invokeFunction){
   var adder = new Function("a", "b", invokeFunction);
   var adderReturn = adder(4,10)
   var addFunc = new Function("a", "b", "return a + b")
   var addReturn= addFunc(4,10)
+
+  let runDiv = document.querySelector('#inner-text')
+  var modal = document.querySelector('#runModal')
+
   if (innerText.innerText == "undefined") {
-    innerText.innerText = "Please try again, return is undefined"
+    modal.style.display = 'block'
+    innerText.innerHTML = `<span class="close">&times;</span> <h1>Please try again, return is undefined</h1>`
   }
   else if (adderReturn != addReturn){
-    innerText.innerText = "Please try again, function does not return correct value"
+    modal.style.display = 'block'
+    innerText.innerHTML = `<span class="close">&times;</span> <h1>Please try again, function does not return correct value</h1>`
   }
   else if (chai.expect(adderReturn).to.equal(addReturn)){
     updateUserRound(currentUserRound, character)
+  }
+  span = document.querySelector('.close')
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
   }
 }
 
@@ -252,14 +304,30 @@ function runLevelTwoTest(invokeFunction){
   var inputMultiplyReturn = inputMultiply(4,10,2)
   var ourMultiplyFunc = new Function("a", "b", "c", "return a * b * c")
   var ourMultiplyReturn = ourMultiplyFunc(4,10,2)
+
+  let runDiv = document.querySelector('#inner-text')
+  var modal = document.querySelector('#runModal')
+
   if (innerText.innerText == "undefined") {
-    innerText.innerText = "Please try again, return is undefined"
+    modal.style.display = 'block'
+    innerText.innerHTML = `<span class="close">&times;</span> <h1>Please try again, return is undefined</h1>`
   }
   else if (inputMultiplyReturn != ourMultiplyReturn){
-    innerText.innerText = "Please try again, function does not return correct value"
+    modal.style.display = 'block'
+    innerText.innerHTML = `<span class="close">&times;</span> <h1>Please try again, function does not return correct value</h1>`
   }
   else if (chai.expect(inputMultiplyReturn).to.equal(ourMultiplyReturn)){
     updateUserRound(currentUserRound, character)
+  }
+
+  span = document.querySelector('.close')
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
   }
 }
 
@@ -269,14 +337,29 @@ function runLevelThreeTest(invokeFunction){
   var ourSayHelloFunc = new Function("name", "return `Hello ${name}`")
   var ourSayHelloReturn = ourSayHelloFunc("Sam")
 
+  let runDiv = document.querySelector('#inner-text')
+  var modal = document.querySelector('#runModal')
+
   if (innerText.innerText == "undefined") {
-    innerText.innerText = "Please try again, return is undefined"
+    modal.style.display = 'block'
+    innerText.innerHTML = `<span class="close">&times;</span> <h1>Please try again, return is undefined</h1>`
   }
   else if (inputSayHelloReturn != ourSayHelloReturn){
-    innerText.innerText = "Please try again, function does not return correct value"
+    modal.style.display = 'block'
+    innerText.innerHTML = `<span class="close">&times;</span> <h1>Please try again, function does not return correct value</h1>`
   }
   else if (chai.expect(inputSayHelloReturn).to.equal(ourSayHelloReturn)){
     updateUserRound(currentUserRound, character)
+  }
+
+  span = document.querySelector('.close')
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
   }
 }
 
@@ -286,32 +369,63 @@ function runLevelFourTest(invokeFunction){
   var ourInnerFunc = "candyLand.push(candy)" + "\n" + "return candyLand"
   var ourPushFunc = new Function ("candyLand", "candy", ourInnerFunc)
   var ourPushReturn = ourPushFunc(["Kit Kat", "Reeses Cup", "M&Ms"], "Snickers")
+
+  let runDiv = document.querySelector('#inner-text')
+  var modal = document.querySelector('#runModal')
+
   if (innerText.innerText == "undefined") {
-    innerText.innerText = "Please try again, return is undefined"
+    modal.style.display = 'block'
+    innerText.innerHTML = `<span class="close">&times;</span> <h1>Please try again, return is undefined</h1>`
   }
   else if (ourPushReturn[3] != inputPushReturn[3]){
-    innerText.innerText = "Please try again, function does not return correct value"
+    modal.style.display = 'block'
+    innerText.innerHTML = `<span class="close">&times;</span> <h1>Please try again, function does not return correct value</h1>`
   }
   else if (chai.expect(ourPushReturn[3]).to.equal(inputPushReturn[3])){
     updateUserRound(currentUserRound, character)
   }
+
+  span = document.querySelector('.close')
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
 }
 
 function runLevelFiveTest(afterIf){
-  if (innerText.innerText == "undefined") {
-    innerText.innerText = "Please try again, return is undefined"
+  let runDiv = document.querySelector('#inner-text')
+  var modal = document.querySelector('#runModal')
+  if (!afterIf.includes("height > 48")) {
+    modal.style.display = 'block'
+    innerText.innerHTML = `<span class="close">&times;</span> <h1>Try Again</h1>`
   }
-  else if (afterIf != "height > 48"){
-    innerText.innerText = "Please try again, function does not return correct value"
+  if (afterIf != "height > 48"){
+    modal.style.display = 'block'
+    innerText.innerHTML = `<span class="close">&times;</span> <h1>Please try again, function does not return correct value</h1>`
   }
   else if (chai.expect(afterIf).to.equal("height > 48")){
     updateUserRound(currentUserRound, character)
+  }
+
+  span = document.querySelector('.close')
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
   }
 }
 
 
 function updateUserScore(currentUserScore){
   let userName = currentUser.name
+  updatedUserScore = currentUser.score + 20
   fetch(`http://localhost:3000/api/v1/users/${currentUser.id}`, {
     method: "PATCH",
     headers: {
@@ -321,7 +435,7 @@ function updateUserScore(currentUserScore){
     body: JSON.stringify({
       user: {
         name: userName,
-        score: currentUserScore
+        score: updatedUserScore
       } //closes user
     }) // closes body
   }) // closes fetch
@@ -332,20 +446,55 @@ function updateUserScore(currentUserScore){
     })
 } // closes func
 
-
+solutionBtn = document.querySelector('#solution')
 
 
 hintBtn.addEventListener('click', renderHint)
+solution.addEventListener('click', renderSolution)
+
+function renderSolution(e){
+  solution = !solution
+  let solutionDiv = document.querySelector('#solution-div')
+  var modal = document.querySelector('#solModal')
+
+  if (solution) {
+    solutionDiv.innerHTML = `<span class="close">&times;</span><h1 id="solutionTxt">${currentRound.solution}</h1>`
+    modal.style.display = 'block'
+  } else {
+    modal.style.display = 'none'
+  }
+  span = document.querySelector('.close')
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+  window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+}
 
 function renderHint(e){
   hint = !hint
   let hintDiv = document.querySelector('#hint-div')
+  var modal = document.querySelector('#myModal')
+
   if (hint) {
-    hintDiv.innerHTML = `<h1 id="hintTxt">${currentRound.hint}</h1>`
-    hintDiv.style.display = 'block'
+    hintDiv.innerHTML = `<span class="close">&times;</span><h1 id="hintTxt">${currentRound.hint}</h1>`
+    modal.style.display = 'block'
+
   } else {
-    hintDiv.style.display = 'none'
+    modal.style.display = 'none'
   }
+  span = document.querySelector('.close')
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+  window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
 }
 
 function renderSomething(character){
@@ -361,7 +510,7 @@ class Character {
   constructor() {
     this.element = document.createElement("img");
     this.element.setAttribute('class', 'img')
-    this.speed = 5;
+    this.speed = 12;
     this.movement = null;
     this.characterAssets = "assets/character";
     this.element.src = `http://hanatemplate.com/images/flying-cartoon-characters-5.png`;
@@ -395,3 +544,22 @@ class Character {
   }
 
 }
+
+function Sound(src) {
+    this.sound = document.createElement("audio")
+    this.sound.src = src
+    this.sound.setAttribute("preload", "auto")
+    this.sound.setAttribute("controls", "none")
+    this.sound.style.display = "none"
+    document.body.appendChild(this.sound)
+  }
+
+  Sound.prototype.play = function(){
+    this.sound.play();
+  }
+
+  Sound.prototype.stop = function(){
+    this.sound.pause();
+  }
+
+// debugger

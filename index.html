@@ -14,7 +14,7 @@
   <body>
 
     <div id="before-login">
-      <h1 id="header">// SUPERscript</h1>
+      <h1 class="header">SUPERscript</h1>
       <br><br>
       <div id="form">
         <form class="login">
@@ -44,19 +44,36 @@
             });
           </script></textarea>
           </form>
+          <div id="myModal" class="modal">
             <div id="hint-div">
             </div>
-            <button id="hint"> Hint 🤔 </button>
-            <button id="run-text"> Run </button>
+          </div>
+
+          <div id="solModal"class="modal">
+            <div id="solution-div">
+            </div>
+          </div>
+          <br>
+          <table id ="tableSaveReset">
+             <tbody>
+             <tr id ="buttonSaveReset" class= "buttonSaveReset">
+             <td class= "save"  align= "right" ><button class="buttons" id="hint"> Hint 🤔 </button></td>
+             <td class= "reset" align= "right">  <button class="buttons" id="solution"> Solution 😦 </button></td>
+             <td class= "reset" align= "right"> <button class="buttons" id="run-text"> Run 🏃</button></td>
+             </tbody>
+
+          </table>
+          <div id="runModal" class="modal">
             <div id="inner-text"> </div>
-            <script>
-              var editor = CodeMirror.fromTextArea(document.getElementById("demotext"), {
-                lineNumbers: true,
-                mode: "text/html",
-                matchBrackets: true
-              });
-            </script>
-          </section>
+          </div>
+          <script>
+            var editor = CodeMirror.fromTextArea(document.getElementById("demotext"), {
+              lineNumbers: true,
+              mode: "text/html",
+              matchBrackets: true
+            });
+          </script>
+        </section>
       </div> <!--end text-editor div -->
     </div> <!--end after-login div -->
 
