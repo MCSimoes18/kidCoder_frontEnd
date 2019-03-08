@@ -1,6 +1,8 @@
-.img{
-
-}
+/* .img{
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  -moz-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+} */
 
 @-webkit-keyframes glow {
   from {
@@ -58,6 +60,17 @@
   border-radius: 5px;
   font-size: 18px;
   text-align: center;
+}
+
+.btn{
+  background-color: #66ABA3;
+  border-radius: 5px;
+  font-size: 18px;
+  text-align: center;
+}
+
+.btn:hover{
+  background-color: #FF2795;
 }
 
 #play-again:hover{

@@ -512,7 +512,7 @@ class Character {
     this.speed = 12;
     this.movement = null;
     this.characterAssets = "assets/character";
-    this.element.src = `http://hanatemplate.com/images/flying-cartoon-characters-5.png`;
+    this.element.src = `flying-cartoon-characters-5.png`;
     this.element.style.position = "absolute";
     this.element.style.left = "375px";
     this.element.style.top = "280px";
