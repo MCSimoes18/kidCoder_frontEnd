@@ -560,5 +560,3 @@ function Sound(src) {
   Sound.prototype.stop = function(){
     this.sound.pause();
   }
-
-// debugger
