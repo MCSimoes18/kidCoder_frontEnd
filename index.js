@@ -32,6 +32,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 });
 function logInPage(){
   if (login) {
+    currentUser = ""
+    inputUN.value = ""
     let body = document.querySelector('body')
     body.setAttribute('id', 'pre-login')
     beforeLogin.style.display = 'block'
@@ -63,7 +65,6 @@ function fetchUsers(){
 }
 
 function createUser(loginInput){
-  debugger
   fetch ('http://localhost:3000/api/v1/users', {
     method: "POST",
     headers: {
@@ -72,7 +73,8 @@ function createUser(loginInput){
     },
     body: JSON.stringify({
       user: {
-        name: loginInput
+        name: loginInput,
+        score: 0
       }
     })
   })
@@ -97,7 +99,6 @@ function findUser(e){
     currentRound = allRounds.find(round => round.id == currentUserRound.round_id)
     afterLogin.style.display = 'block'
     beforeLogin.style.display = 'none'
-
     renderThisGame(currentUser)
   }
 
@@ -126,11 +127,11 @@ function createUserRound(currentUser){
   }
 
 function updateUserRound(currentUserRound, character){
+  currentUserRound = allUserRounds.find(userRound => userRound.user_id == currentUser.id)
   if (currentUserRound.round_id == 6) {
-
     user_id = currentUserRound.user_id
     round_id = 1
-  } else {
+  } else if (currentUserRound.round_id != 6){
     user_id = currentUserRound.user_id
     round_id = currentUserRound.round_id + 1
   }
@@ -153,59 +154,93 @@ function updateUserRound(currentUserRound, character){
   })
   .then(function(myJson) {
     if (myJson.round_id == 1) {
-
       currentUserRound = allUserRounds.find(userRound => userRound.id == myJson.id)
       currentUserRound.round_id = myJson.round_id
       let body = document.querySelector('body')
       body.setAttribute('class', 'game-again')
       document.querySelector('#game-over-txt').remove()
-      logInPage()
+      let currentRound = allRounds.find(round => round.id == currentUserRound.round_id)
+      renderLevelOneAgain(currentUser, currentRound)
+    } else {
+      currentUserRound = allUserRounds.find(userRound => userRound.id == myJson.id)
+      currentUserRound.round_id = myJson.round_id
+      let currentPosition = parseInt(character.element.style.left);
+      character.walkEast()
+      playdatsound()
     }
-    currentUserRound = allUserRounds.find(userRound => userRound.id == myJson.id)
-    currentUserRound.round_id = myJson.round_id
-    let currentPosition = parseInt(character.element.style.left);
-    character.walkEast()
-    playdatsound()
+  })
+}
+
+function renderLevelOneAgain(currentUser, currentRound){
+  textEditor.style.display = 'block'
+  gameGraphics.innerHTML = `
+    <h1 id="level" class="header"> Level ${currentRound.level} </h1>
+    <img src='https://uniqueideas.co.uk/wp-content/uploads/2013/09/apple-air.png' id='container'>
+      <div id="not-computer">
+        <h3 id='username' class="level-text">USERNAME: ${currentUser.name} </h3>
+        <h3 id='score' class="level-text">SCORE: ${currentUser.score} </h3>
+        <img id="background-image" src= ${currentRound.background_image} style="width:850px;height:500px">
+        <h3 id='challenge' class="level-text"> Challenge: ${currentRound.challenge} </h3>
+      </div>
+    <br>
+    `
+  characterList = []
+  character = new Character
+
+  characterList.push(character)
+  editor.setValue(currentRound.prompt)
+  document.querySelector('#run-text').addEventListener('click', function(e){
+    character = characterList[0]
+    let demoText = editor.getValue()
+    CodeMirror.runMode(demoText,'application/javascript', innerText)
+    if (currentRound.level == 1) {
+      updateUserScore(currentUser.score)
+      if (demoText.includes("{" && "}")){
+        invokeFunction = demoText.split('{').pop().split('}')[0];
+        runLevelOneTest(invokeFunction)
+      }
+    }
   })
 }
 
 // document.addEventListener('click', playdatsound)
 
 function playdatsound(){
-  console.log("here")
   let sound = new Sound('winning.wav')
   sound.play()
 }
 
+
 function renderThisGame(currentUser){
-  //put a modal here to put next level on the screen
   let currentUserRound = allUserRounds.find(user_round => user_round.user_id == currentUser.id)
   currentRound = allRounds.find(round => round.id == currentUserRound.round_id)
   beforeLogin.style.display = 'none'
+  afterLogin.style.display = 'block'
   if (currentRound.level == 6) {
-    textEditor.innerHTML = ""
+    textEditor.style.display = 'none'
     let body = document.querySelector('body')
     body.setAttribute('class', 'game-over')
-    afterLogin.innerHTML = `
-      <!-- <div id="game-over"> -->
-        <div id="game-over-txt">
-          <h1 id="you-win"> CONGRATULATIONS! YOU WON! </h1>
-          <h3 class="game-text"> YOU ARE A JAVASCRIPT MASTER </h3>
-          <h3 class="game-text"> YOUR SCORE: ${currentUser.score} </h3>
-          <button class="btn" id="play-again"> Play Again? </button>
-        <!-- </div> -->
+
+    gameGraphics.innerHTML = `
+      <div id="game-over-txt">
+        <h1 id="you-win"> CONGRATULATIONS, ${currentUser.name}! YOU WON! </h1>
+        <h3 class="game-text"> YOU ARE A JAVASCRIPT MASTER </h3>
+        <h3 class="game-text"> YOUR SCORE: ${currentUser.score} </h3>
+        <button class="btn" id="play-again"> Play Again? </button>
       </div>`
-      // debugger
+      won = new Sound('gamewin.wav')
+      won.play()
       let playAgainBtn = document.querySelector('#play-again')
       playAgainBtn.addEventListener('click', clickPlayAgain)
     } else {
-      innerText.innerText = ''
+      innerText.innerHTML = ''
       gameGraphics.innerHTML = ''
       gameGraphics.innerHTML = `
         <h1 id="level" class="header"> Level ${currentRound.level} </h1>
         <img src='https://uniqueideas.co.uk/wp-content/uploads/2013/09/apple-air.png' id='container'>
           <div id="not-computer">
-            <h3 id='score' class="level-text"> SCORE: ${currentUser.score} </h3>
+            <h3 id='username' class="level-text">USERNAME: ${currentUser.name} </h3>
+            <h3 id='score' class="level-text">SCORE: ${currentUser.score} </h3>
             <img id="background-image" src= ${currentRound.background_image} style="width:850px;height:500px">
             <h3 id='challenge' class="level-text"> Challenge: ${currentRound.challenge} </h3>
           </div>
@@ -259,12 +294,17 @@ function renderThisGame(currentUser){
         }
       })
     }
-
 }
 function clickPlayAgain(e){
   if (e.target.id == 'play-again') {
+    won.stop()
+    inputUN.value = ""
     updateUserRound(currentUserRound, character)
   }
+}
+
+Sound.prototype.stop = function(){
+  this.sound.pause()
 }
 
 function runLevelOneTest(invokeFunction){
@@ -277,14 +317,18 @@ function runLevelOneTest(invokeFunction){
   var modal = document.querySelector('#runModal')
 
   if (innerText.innerText == "undefined") {
+    runDiv.style.display = "block"
     modal.style.display = 'block'
     innerText.innerHTML = `<span class="close">&times;</span> <h1>Please try again, return is undefined</h1>`
   }
   else if (adderReturn != addReturn){
+    runDiv.style.display = "block"
     modal.style.display = 'block'
     innerText.innerHTML = `<span class="close">&times;</span> <h1>Please try again, function does not return correct value</h1>`
   }
   else if (chai.expect(adderReturn).to.equal(addReturn)){
+    runDiv.style.display = "none"
+    modal.style.display = "none"
     updateUserRound(currentUserRound, character)
   }
   span = document.querySelector('.close')
@@ -308,14 +352,18 @@ function runLevelTwoTest(invokeFunction){
   var modal = document.querySelector('#runModal')
 
   if (innerText.innerText == "undefined") {
+    runDiv.style.display = "block"
     modal.style.display = 'block'
     innerText.innerHTML = `<span class="close">&times;</span> <h1>Please try again, return is undefined</h1>`
   }
   else if (inputMultiplyReturn != ourMultiplyReturn){
+    runDiv.style.display = "block"
     modal.style.display = 'block'
     innerText.innerHTML = `<span class="close">&times;</span> <h1>Please try again, function does not return correct value</h1>`
   }
   else if (chai.expect(inputMultiplyReturn).to.equal(ourMultiplyReturn)){
+    runDiv.style.display = "none"
+    modal.style.display = "none"
     updateUserRound(currentUserRound, character)
   }
 
@@ -340,14 +388,18 @@ function runLevelThreeTest(invokeFunction){
   var modal = document.querySelector('#runModal')
 
   if (innerText.innerText == "undefined") {
+    runDiv.style.display = "block"
     modal.style.display = 'block'
     innerText.innerHTML = `<span class="close">&times;</span> <h1>Please try again, return is undefined</h1>`
   }
   else if (inputSayHelloReturn != ourSayHelloReturn){
+    runDiv.style.display = "block"
     modal.style.display = 'block'
     innerText.innerHTML = `<span class="close">&times;</span> <h1>Please try again, function does not return correct value</h1>`
   }
   else if (chai.expect(inputSayHelloReturn).to.equal(ourSayHelloReturn)){
+    runDiv.style.display = "none"
+    modal.style.display = "none"
     updateUserRound(currentUserRound, character)
   }
 
@@ -373,14 +425,18 @@ function runLevelFourTest(invokeFunction){
   var modal = document.querySelector('#runModal')
 
   if (innerText.innerText == "undefined") {
+    runDiv.style.display = "block"
     modal.style.display = 'block'
     innerText.innerHTML = `<span class="close">&times;</span> <h1>Please try again, return is undefined</h1>`
   }
   else if (ourPushReturn[3] != inputPushReturn[3]){
+    runDiv.style.display = "block"
     modal.style.display = 'block'
     innerText.innerHTML = `<span class="close">&times;</span> <h1>Please try again, function does not return correct value</h1>`
   }
   else if (chai.expect(ourPushReturn[3]).to.equal(inputPushReturn[3])){
+    runDiv.style.display = "none"
+    modal.style.display = "none"
     updateUserRound(currentUserRound, character)
   }
 
@@ -399,14 +455,18 @@ function runLevelFiveTest(afterIf){
   let runDiv = document.querySelector('#inner-text')
   var modal = document.querySelector('#runModal')
   if (!afterIf.includes("height > 48")) {
+    runDiv.style.display = "block"
     modal.style.display = 'block'
     innerText.innerHTML = `<span class="close">&times;</span> <h1>Try Again</h1>`
   }
   if (afterIf != "height > 48"){
+    runDiv.style.display = "block"
     modal.style.display = 'block'
     innerText.innerHTML = `<span class="close">&times;</span> <h1>Please try again, function does not return correct value</h1>`
   }
   else if (chai.expect(afterIf).to.equal("height > 48")){
+    runDiv.style.display = "none"
+    modal.style.display = "none"
     updateUserRound(currentUserRound, character)
   }
 
@@ -435,15 +495,15 @@ function updateUserScore(currentUserScore){
       user: {
         name: userName,
         score: updatedUserScore
-      } //closes user
-    }) // closes body
-  }) // closes fetch
+      }
+    })
+  })
   .then(response => response.json())
   .then(myJson => {
   currentUser = allUsers.find(user => user.id == myJson.id)
   currentUser.score = myJson.score
     })
-} // closes func
+}
 
 solutionBtn = document.querySelector('#solution')
 
@@ -496,8 +556,7 @@ function renderHint(e){
 }
 }
 
-function renderSomething(character){
-  currentUser = currentUserArr[0]
+function renderSomething(character, currentUser){
   character.remove()
   characterList = []
   let currentUserRound = allUserRounds.find(user_round => user_round.user_id == currentUser.id)
@@ -529,7 +588,7 @@ class Character {
         this.element.style.left = currentPosition + 1 + "px";
         if (currentPosition == 920) {
           this.stop()
-          renderSomething(this.element)
+          renderSomething(this.element, currentUser)
         }
       }.bind(this),
       this.speed
@@ -560,5 +619,3 @@ function Sound(src) {
   Sound.prototype.stop = function(){
     this.sound.pause();
   }
-
-// debugger
