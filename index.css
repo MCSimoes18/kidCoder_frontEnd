@@ -21,28 +21,47 @@
     box-shadow: 0 0 40px #fff, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6, 0 0 90px #ff4da6, 0 0 100px #ff4da6;
   }
 }
-#game-over-txt{
-  z-index: 1;
-  position: absolute;
-  font-size: 35px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: auto;
-  margin-top: auto;
-  text-align: center;
-  color: white;
-  width: 500px;
-  padding: 20px;
-  -webkit-animation: glow1 1s ease-in-out infinite alternate;
-  -moz-animation: glow1 1s ease-in-out infinite alternate;
-  animation: glow1 1s ease-in-out infinite alternate;
+.game-text{
+  font-family: 'Digital-7';
+  color: black;
+  font-size: 60px;
 }
 
+#game-over-txt{
+    /* z-index: 1;
+    position: absolute; */
+    background-color:rgb(255,255,255,0.8);
+    color: black;
+    font-size: 35px;
+    margin-left: 20%;
+    margin-right: 20%;
+    /* margin-bottom: 20%; */
+    margin-top: 10%;
+    margin-bottom: 10%;
+    padding: 5%;
+    text-align: center;
+    color: white;
+    /* width: 500px; */
+    padding-left: 10%;
+    padding-right: 10%;
+    -webkit-animation: glow1 1s ease-in-out infinite alternate;
+    -moz-animation: glow1 1s ease-in-out infinite alternate;
+    animation: glow1 1s ease-in-out infinite alternate;
+    /* display: flex; */
+    /* justify-content: center; */
+    /* align-items: center; */
+    text-align:center;
+  }
+
 #play-again{
-  background-color: grey;
+  background-color: #66ABA3;
   border-radius: 5px;
   font-size: 18px;
   text-align: center;
+}
+
+#play-again:hover{
+  background-color: #FF2795;
 }
 
 #tableSaveReset{
@@ -51,6 +70,25 @@
   vertical-align: middle;
   margin-left: auto;
   margin-right: auto;
+}
+
+td{
+  text-align: center;
+}
+
+.btn{
+  font-family: 'Digital-7';
+  background-color: #66ABA3;
+  color: white;
+  border-radius: 5px;
+  font-size: 18px;
+  z-index: 1;
+  width: 150px;
+  padding: 10px;
+  text-align: center;
+}
+#login-btn:hover{
+  background-color: #FF2795;
 }
 
 .buttons{
@@ -63,12 +101,26 @@
   width: 150px;
   padding: 10px;
   text-align: center;
-  align-items: center;
   display: block;
-  vertical-align: middle;
-  margin-left: auto;
-  margin-right: auto;
+  float: right;
+  margin-right: 335px;
+  margin-left: -150px;
+  margin-bottom: 20px;
+
 }
+
+.button-div{
+  left: 300px;
+  text-align: center;
+  display: block;
+  /* margin-left: auto;
+  margin-right: auto; */
+}
+
+.buttons:hover{
+  background-color: #FF2795;
+}
+
 
 /* #hint{
   float: left;
@@ -124,14 +176,16 @@
 #not-computer{
   z-index: -1;
   align-items: center;
-  position: absolute;
+  position: relative;
   left: 360px;
 }
 
 
 #container{
   width: 1550px;
-  position: absolute;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
   margin-top: -200px;
   align-items: center;
 }
@@ -176,7 +230,7 @@
 }
 
 #pre-login{
-  background-color: black;
+  background-image: url('https://newevolutiondesigns.com/images/freebies/texture-wallpaper-23.jpg');
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -192,8 +246,11 @@
   background-size: cover;
 } */
 #you-win{
-  font-family:'Retronoid';
+  font-family:'Digital-7';
   font-size: 80px;
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  -moz-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
 }
 
 /*modal CSS */
@@ -201,7 +258,7 @@
 .modal{
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  z-index: 4; /* Sit on top */
   padding-top: 100px; /* Location of the box */
   left: 0;
   top: 0;
@@ -210,15 +267,18 @@
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+
 }
 
 #hint-div{
   background-color: #fefefe;
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
   padding: 40px;
   border: 1px solid #888;
   width: 400px;
   font-size: 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 #solution-div{
@@ -228,6 +288,19 @@
   border: 1px solid #888;
   width: 400px;
   font-size: 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.welcome-text{
+  font-family: 'Digital tech';
+  font-size: 50px;
+  text-align: center;
+}
+
+#input-un{
+  width: 200px;
+  border-radius: 5px;
+  padding: 10px;
 }
 
 #inner-text{
@@ -237,6 +310,7 @@
   border: 1px solid #888;
   width: 400px;
   font-size: 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .close {

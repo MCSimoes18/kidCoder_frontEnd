@@ -18,9 +18,9 @@
       <br><br>
       <div id="form">
         <form class="login">
-        <h1>Welcome! What's Your Name?</h1>
-        <input id="input-un" type="text" name="name" value="" placeholder="enter username"> <br>
-        <button id="login-btn" type"submit"> Create Login Or Sign In</button>
+        <h1 class="welcome-text">Welcome!</h1>
+        <input id="input-un" type="text" name="name" value="" placeholder="Enter Username"> <br><br>
+        <button class="btn" type"submit">Log In</button>
 
         </form>
       </div>
@@ -54,15 +54,22 @@
             </div>
           </div>
           <br>
-          <table id ="tableSaveReset">
-             <tbody>
-             <tr id ="buttonSaveReset" class= "buttonSaveReset">
-             <td class= "save"  align= "right" ><button class="buttons" id="hint"> Hint 🤔 </button></td>
-             <td class= "reset" align= "right">  <button class="buttons" id="solution"> Solution 😦 </button></td>
-             <td class= "reset" align= "right"> <button class="buttons" id="run-text"> Run 🏃</button></td>
-             </tbody>
+          <button class="buttons" id="solution"> Solution 😦 </button>
+          <button class="buttons" id="run-text"> Run 🏃</button>
+          <button class="buttons" id="hint"> Hint 🤔 </button>
+          <br><br>
+          <!-- <div class="button-div">
+            <table id ="tableSaveReset">
+               <tbody>
+               <tr id ="buttonSaveReset" class= "buttonSaveReset">
+               <td align= "right" ></td>
+               <td align= "right">  </td>
+               <td align= "right"></td>
+               </tbody>
 
-          </table>
+            </table>
+          </div> -->
+
           <div id="runModal" class="modal">
             <div id="inner-text"> </div>
           </div>

@@ -158,13 +158,16 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #a22;}
    the editor. You probably shouldn't touch them. */
 
 .CodeMirror {
-  position: relative;
+  position: block;
   left: 360px;
   margin-top: 650px;
+  margin-left: auto;
+  margin-right: auto;
   overflow: hidden;
   background: #C4EFEA;
   width: 900px;
   height: 200px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);;
 }
 
 .CodeMirror-scroll {

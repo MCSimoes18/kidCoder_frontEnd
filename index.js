@@ -37,7 +37,6 @@ function logInPage(){
     beforeLogin.style.display = 'block'
     afterLogin.style.display = 'none'
     login.addEventListener('submit', findUser)
-
   }
 }
 
@@ -64,6 +63,7 @@ function fetchUsers(){
 }
 
 function createUser(loginInput){
+  debugger
   fetch ('http://localhost:3000/api/v1/users', {
     method: "POST",
     headers: {
@@ -121,6 +121,7 @@ function createUserRound(currentUser){
     let newUserRound = myJson
     allUserRounds.push(newUserRound)
     renderThisGame(currentUser)
+
   })
   }
 
@@ -181,7 +182,6 @@ function renderThisGame(currentUser){
   let currentUserRound = allUserRounds.find(user_round => user_round.user_id == currentUser.id)
   currentRound = allRounds.find(round => round.id == currentUserRound.round_id)
   beforeLogin.style.display = 'none'
-
   if (currentRound.level == 6) {
     textEditor.innerHTML = ""
     let body = document.querySelector('body')
@@ -189,11 +189,10 @@ function renderThisGame(currentUser){
     afterLogin.innerHTML = `
       <!-- <div id="game-over"> -->
         <div id="game-over-txt">
-          <h1 id="you-win"> YOU WON! </h1>
+          <h1 id="you-win"> CONGRATULATIONS! YOU WON! </h1>
           <h3 class="game-text"> YOU ARE A JAVASCRIPT MASTER </h3>
-          <br>
           <h3 class="game-text"> YOUR SCORE: ${currentUser.score} </h3>
-          <button id="play-again"> Play Again? </button>
+          <button class="btn" id="play-again"> Play Again? </button>
         <!-- </div> -->
       </div>`
       // debugger
