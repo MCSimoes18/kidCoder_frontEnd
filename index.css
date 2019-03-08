@@ -91,6 +91,17 @@ td{
   background-color: #FF2795;
 }
 
+#solution-div{
+  font-family: 'Digital-7'
+}
+
+#hint-div{
+  font-family: 'Digital-7'
+}
+#inner-text{
+  font-family: 'Digital-7'
+}
+
 .buttons{
   font-family: 'Digital-7';
   background-color: #66ABA3;
@@ -104,9 +115,8 @@ td{
   display: block;
   float: right;
   margin-right: 335px;
-  margin-left: -150px;
-  margin-bottom: 20px;
-
+  margin-left: -100px;
+  margin-bottom: 10px;
 }
 
 .button-div{
@@ -177,13 +187,13 @@ td{
   z-index: -1;
   align-items: center;
   position: relative;
-  left: 360px;
+  left: 350px;
 }
 
 
 #container{
   width: 1550px;
-  position: relative;
+  position: absolute;
   margin-left: auto;
   margin-right: auto;
   margin-top: -200px;

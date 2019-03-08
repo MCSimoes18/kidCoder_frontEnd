@@ -160,7 +160,8 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #a22;}
 .CodeMirror {
   position: block;
   left: 360px;
-  margin-top: 650px;
+  margin-top: 160px;
+  margin-bottom: 10px;
   margin-left: auto;
   margin-right: auto;
   overflow: hidden;
