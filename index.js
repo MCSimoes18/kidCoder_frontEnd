@@ -88,10 +88,35 @@ function createUser(loginInput){
 
 function findUser(e){
   e.preventDefault()
-  let loginInput = e.target.querySelector('#input-un').value
-  currentUser = allUsers.find(user => user.name == loginInput)
-  currentUserArr = []
-  currentUserArr.push(currentUser)
+    if (e.target.querySelector('#char2').checked){
+     char = "char2"
+    }
+    else if (e.target.querySelector('#char3').checked){
+     char = "char3"
+    }
+    else if (e.target.querySelector('#char4').checked){
+     char = "char4"
+    }
+    else if (e.target.querySelector('#char5').checked){
+     char = "char5"
+    }
+    else if (e.target.querySelector('#char6').checked){
+     char = "char6"
+    }
+    else if (e.target.querySelector('#char7').checked){
+     char = "char7"
+    }
+    else if (e.target.querySelector('#char8').checked){
+     char = "char8"
+    }
+    else {
+     char = "char1"
+    }
+    let loginInput = e.target.querySelector('#input-un').value
+    currentUser = allUsers.find(user => user.name == loginInput)
+    currentUserArr = []
+    currentUserArr.push(currentUser)
+
     if (currentUser == undefined){
       createUser(loginInput)
     }
@@ -99,7 +124,7 @@ function findUser(e){
     currentRound = allRounds.find(round => round.id == currentUserRound.round_id)
     afterLogin.style.display = 'block'
     beforeLogin.style.display = 'none'
-    renderThisGame(currentUser)
+    renderThisGame(currentUser, char)
   }
 
 function createUserRound(currentUser){
@@ -165,7 +190,7 @@ function updateUserRound(currentUserRound, character){
       currentUserRound = allUserRounds.find(userRound => userRound.id == myJson.id)
       currentUserRound.round_id = myJson.round_id
       let currentPosition = parseInt(character.element.style.left);
-      character.walkEast()
+      character.walkEast(imgURL)
       playdatsound()
     }
   })
@@ -184,10 +209,41 @@ function renderLevelOneAgain(currentUser, currentRound){
       </div>
     <br>
     `
-  characterList = []
-  character = new Character
+    characterList = []
+    if (char == "char2"){
+      imgURL = "https://talenthouse-res.cloudinary.com/image/upload/c_limit,h_1000,w_1000/v1/user-549495/submissions/ianomididwehoyihq6tq.gif"
+      character = new Character(imgURL)
+    }
+    else if  (char == "char3"){
+      imgURL = "https://webstockreview.net/images/clipart-woman-superhero-10.png"
+      character = new Character(imgURL)
+    }
+    else if  (char == "char4"){
+      imgURL = "https://i.pinimg.com/originals/ef/09/63/ef09630a4f8f8cff7f9bfacf134e476d.png"
+      character = new Character(imgURL)
+    }
+    else if  (char == "char5"){
+      imgURL = "https://i.giphy.com/media/YiAgLZcqoPKHHjHael/giphy.webp"
+      character = new Character(imgURL)
+    }
+    else if  (char == "char6"){
+      imgURL = "http://www.secondcapemaybaptist.church/wp-content/uploads/2018/07/Flying-SuperGirl-4.png"
+      character = new Character(imgURL)
+    }
+    else if  (char == "char7"){
+      imgURL = "https://i.giphy.com/media/5UvmvS2eateZJG5b3J/giphy.webp"
+      character = new Character(imgURL)
+    }
+    else if  (char == "char8"){
+      imgURL = "https://2.bp.blogspot.com/-HH1Dy6rUmjc/WDfzBSnW-DI/AAAAAAAD1II/kAJbuwpess4IQWKQGxkWz8G5PKQ0cev7wCLcB/s1600/AS001131_00.gif"
+      character = new Character(imgURL)
+    }
+    else {
+      imgURL = "http://hanatemplate.com/images/flying-cartoon-characters-5.png"
+      character = new Character(imgURL)
+    }
 
-  characterList.push(character)
+    characterList.push(character)
   editor.setValue(currentRound.prompt)
   document.querySelector('#run-text').addEventListener('click', function(e){
     character = characterList[0]
@@ -246,10 +302,41 @@ function renderThisGame(currentUser){
           </div>
         <br>
         `
-      characterList = []
-      character = new Character
-
+        characterList = []
+        if (char == "char2"){
+          imgURL = "https://talenthouse-res.cloudinary.com/image/upload/c_limit,h_1000,w_1000/v1/user-549495/submissions/ianomididwehoyihq6tq.gif"
+          character = new Character(imgURL)
+        }
+        else if  (char == "char3"){
+          imgURL = "https://webstockreview.net/images/clipart-woman-superhero-10.png"
+          character = new Character(imgURL)
+        }
+        else if  (char == "char4"){
+          imgURL = "https://i.pinimg.com/originals/ef/09/63/ef09630a4f8f8cff7f9bfacf134e476d.png"
+          character = new Character(imgURL)
+        }
+        else if  (char == "char5"){
+          imgURL = "https://i.giphy.com/media/YiAgLZcqoPKHHjHael/giphy.webp"
+          character = new Character(imgURL)
+        }
+        else if  (char == "char6"){
+          imgURL = "http://www.secondcapemaybaptist.church/wp-content/uploads/2018/07/Flying-SuperGirl-4.png"
+          character = new Character(imgURL)
+        }
+        else if  (char == "char7"){
+          imgURL = "https://i.giphy.com/media/5UvmvS2eateZJG5b3J/giphy.webp"
+          character = new Character(imgURL)
+        }
+        else if  (char == "char8"){
+          imgURL = "https://2.bp.blogspot.com/-HH1Dy6rUmjc/WDfzBSnW-DI/AAAAAAAD1II/kAJbuwpess4IQWKQGxkWz8G5PKQ0cev7wCLcB/s1600/AS001131_00.gif"
+          character = new Character(imgURL)
+        }
+        else {
+          imgURL = "http://hanatemplate.com/images/flying-cartoon-characters-5.png"
+          character = new Character(imgURL)
+        }
       characterList.push(character)
+
       editor.setValue(currentRound.prompt)
       document.querySelector('#run-text').addEventListener('click', function(e){
         character = characterList[0]
@@ -565,13 +652,13 @@ function renderSomething(character, currentUser){
 
 
 class Character {
-  constructor() {
+  constructor(imgURL) {
     this.element = document.createElement("img");
-    this.element.setAttribute('class', 'img')
+    // this.element.setAttribute('class', 'img')
     this.speed = 12;
     this.movement = null;
     this.characterAssets = "assets/character";
-    this.element.src = `http://hanatemplate.com/images/flying-cartoon-characters-5.png`;
+    this.element.src = imgURL;
     this.element.style.position = "absolute";
     this.element.style.left = "375px";
     this.element.style.top = "280px";
@@ -580,25 +667,26 @@ class Character {
     document.body.appendChild(this.element);
   }
 
-  walkEast() {
+  walkEast(imgURL) {
     clearInterval(this.movement);
     this.movement = setInterval(
       function() {
         let currentPosition = parseInt(this.element.style.left);
         this.element.style.left = currentPosition + 1 + "px";
         if (currentPosition == 920) {
+          debugger
           this.stop()
           renderSomething(this.element, currentUser)
         }
       }.bind(this),
       this.speed
     );
-    this.element.src = `http://hanatemplate.com/images/flying-cartoon-characters-5.png`;
+    this.element.src = imgURL;
   }
 
-  stop() {
+  stop(imgURL) {
     clearInterval(this.movement);
-    this.element.src = `http://hanatemplate.com/images/flying-cartoon-characters-5.png`;
+    this.element.src = imgURL;
   }
 
 }
