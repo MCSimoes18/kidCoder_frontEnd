@@ -18,9 +18,9 @@ SUPERscript is a game, created by Sivan Adler and Maria Cristina Simoes, that is
 
 
 ## CONTRIBUTORS GUIDE
-1. Fork and clone this repo
-2. Fork and clone the backend repo: https://github.com/MCSimoes18/kidCodeGame
-3. Create your feature branch ```git checkout -b my-new-feature```
-4. Commit your changes ```git commit -m 'Add some feature'```
-5. Push to the branch ```git push origin my-new-feature```
-6. Create a new Pull Request
+1. Fork and clone this repository.
+2. Fork and clone the [backend repository](https://github.com/MCSimoes18/kidCodeGame) .
+3. Create your feature branch ```git checkout -b my-new-feature```.
+4. Commit your changes ```git commit -m 'Add some feature'```.
+5. Push to the branch ```git push origin my-new-feature```.
+6. Create a new Pull Request.
