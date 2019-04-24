@@ -19,7 +19,7 @@ SUPERscript is a game, created by Sivan Adler and Maria Cristina Simoes, that is
 
 ## INSTALL
 1. Clone down this repository to your local machine. 
-2. Clone down the [front-end repository](https://github.com/MCSimoes18/kidCoder_frontEnd) to your local machine.
+2. Clone down the [back-end repository](https://github.com/MCSimoes18/kidCodeGame) to your local machine.
 3. Run ```bundle install``` in your terminal after cloning down the backend. 
 4. Before launching the app, you'll need to launch our database. In your terminal for the backend repository, run ```rails db:create``` and ```rails db:migrate```.
 5. Run ```rails s``` in that same terminal session to launch our server.
@@ -28,7 +28,7 @@ SUPERscript is a game, created by Sivan Adler and Maria Cristina Simoes, that is
 
 ## CONTRIBUTORS GUIDE
 1. Fork and clone this repository.
-2. Fork and clone the [front-end repository](https://github.com/MCSimoes18/kidCoder_frontEnd) .
+2. Fork and clone the [back-end repository](https://github.com/MCSimoes18/kidCodeGame) .
 3. Create your feature branch ```git checkout -b my-new-feature```.
 4. Commit your changes ```git commit -m 'Add some feature'```.
 5. Push to the branch ```git push origin my-new-feature```.
