@@ -1,6 +1,8 @@
 # SUPERscript
 by Sivan Adler and Maria Cristina Simoes
-A project created during our time at the Flatiron School 
+
+
+A project created during our time at the [Flatiron School](https://flatironschool.com/)
 
 ![](https://media.giphy.com/media/g04AH1QpwcCEOTnaNw/giphy.gif)
 
