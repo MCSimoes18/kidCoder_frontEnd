@@ -255,7 +255,7 @@ td{
 }
 .ptag{
   text-align: center;
-  font-family: 'Digital tech';
+  font-family: 'Digital-7';
   font-size: 30px;
   background-color: #66ABA3;
   color: white;
@@ -324,7 +324,6 @@ td{
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-
 }
 
 #hint-div{

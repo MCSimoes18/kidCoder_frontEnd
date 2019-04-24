@@ -655,7 +655,7 @@ class Character {
   constructor(imgURL) {
     this.element = document.createElement("img");
     // this.element.setAttribute('class', 'img')
-    this.speed = 12;
+    this.speed = 8;
     this.movement = null;
     this.characterAssets = "assets/character";
     this.element.src = imgURL;
