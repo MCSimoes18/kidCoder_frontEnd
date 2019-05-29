@@ -674,7 +674,6 @@ class Character {
         let currentPosition = parseInt(this.element.style.left);
         this.element.style.left = currentPosition + 1 + "px";
         if (currentPosition == 920) {
-          debugger
           this.stop()
           renderSomething(this.element, currentUser)
         }
