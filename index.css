@@ -133,9 +133,15 @@ td{
   text-align: center;
   display: block;
   float: right;
-  margin-right: 335px;
-  margin-left: -100px;
+  margin-right: 20%;
+  /* margin-left: -60%; */
   margin-bottom: 10px;
+}
+
+.button-container {
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 200px;
 }
 
 .button-div{
@@ -177,7 +183,6 @@ td{
 }
 
 #background-image{
-
   z-index: -1;
   margin-left: auto;
   margin-right: auto;
@@ -187,6 +192,23 @@ td{
   font-family:'Digital tech';
   font-size: 60px;
   color: white;
+}
+
+#after-login{
+  margin-left: auto;
+  margin-right: auto;
+  vertical-align: middle;
+}
+
+.computer-combined{
+  display: block;
+  /* text-align: center; */
+  vertical-align: middle;
+  padding-left: auto;
+  padding-right: auto;
+  margin-left: auto;
+  margin-right: auto;
+
 }
 
 #score{
@@ -216,20 +238,26 @@ td{
 }
 
 #not-computer{
-  z-index: -1;
+  z-index: 0;
+  /* align-items: center; */
+  width: 850px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: -830px;
   align-items: center;
-  position: relative;
-  left: 350px;
+  /* left: 350px; */
 }
 
 
 #container{
-  width: 1550px;
-  position: absolute;
+  width: 1600px;
+  display: block;
   margin-left: auto;
   margin-right: auto;
   margin-top: -200px;
   align-items: center;
+  z-index: 100;
 }
 
 .new{
@@ -243,12 +271,12 @@ td{
   color: white;
   background-color: #66ABA3;
   text-align: center;
-  width: 820px;
-  height: 100px;
+  width: 830px;
+  height: 85px;
   padding-top: 20px;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
   padding-left: 20px;
-  padding-right: 30px;
+  padding-right: 0px;
   position: absolute;
   margin-top: -70px;
   z-index: 0;

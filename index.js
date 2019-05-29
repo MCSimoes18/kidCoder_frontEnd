@@ -293,6 +293,7 @@ function renderThisGame(currentUser){
       gameGraphics.innerHTML = ''
       gameGraphics.innerHTML = `
         <h1 id="level" class="header"> Level ${currentRound.level} </h1>
+        <!-- <div class="computer-combined"> -->
         <img src='https://uniqueideas.co.uk/wp-content/uploads/2013/09/apple-air.png' id='container'>
           <div id="not-computer">
             <h3 id='username' class="level-text">USERNAME: ${currentUser.name} </h3>
@@ -300,6 +301,7 @@ function renderThisGame(currentUser){
             <img id="background-image" src= ${currentRound.background_image} style="width:850px;height:500px">
             <h3 id='challenge' class="level-text"> Challenge: ${currentRound.challenge} </h3>
           </div>
+        <!-- </div> -->
         <br>
         `
         characterList = []
@@ -655,12 +657,12 @@ class Character {
   constructor(imgURL) {
     this.element = document.createElement("img");
     // this.element.setAttribute('class', 'img')
-    this.speed = 8;
+    this.speed = 50;
     this.movement = null;
     this.characterAssets = "assets/character";
     this.element.src = imgURL;
     this.element.style.position = "absolute";
-    this.element.style.left = "375px";
+    this.element.style.left = "31%";
     this.element.style.top = "280px";
     this.element.style.width = "200px";
 
@@ -672,8 +674,8 @@ class Character {
     this.movement = setInterval(
       function() {
         let currentPosition = parseInt(this.element.style.left);
-        this.element.style.left = currentPosition + 1 + "px";
-        if (currentPosition == 920) {
+        this.element.style.left = currentPosition + 1 + "%";
+        if (currentPosition == "60") {
           this.stop()
           renderSomething(this.element, currentUser)
         }
