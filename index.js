@@ -43,21 +43,21 @@ function logInPage(){
 }
 
 function fetchRounds(){
-  fetch ('http://localhost:3000/api/v1/rounds')
+  fetch ('https://superscript-api.herokuapp.com/rounds')
   .then(response => response.json())
   .then(myJson => {
     allRounds = myJson
   })
 }
 function fetchUserRounds(){
-  fetch ('http://localhost:3000/api/v1/user_rounds')
+  fetch ('https://superscript-api.herokuapp.com/user_rounds')
   .then(response => response.json())
   .then(myJson => {
     allUserRounds = myJson
   })
 }
 function fetchUsers(){
-  fetch ('http://localhost:3000/api/v1/users')
+  fetch ('https://superscript-api.herokuapp.com/users')
   .then(response => response.json())
   .then(myJson => {
     allUsers = myJson
@@ -65,7 +65,7 @@ function fetchUsers(){
 }
 
 function createUser(loginInput){
-  fetch ('http://localhost:3000/api/v1/users', {
+  fetch ('https://superscript-api.herokuapp.com/users', {
     method: "POST",
     headers: {
       "Content-Type": 'application/json',
@@ -129,7 +129,7 @@ function findUser(e){
 
 function createUserRound(currentUser){
   let currentUserId = currentUser.id
-  fetch('http://localhost:3000/api/v1/user_rounds', {
+  fetch ('https://superscript-api.herokuapp.com/user_rounds', {
     method: "POST",
     headers: {
       "Content-Type": 'application/json',
@@ -166,7 +166,7 @@ function updateUserRound(currentUserRound, character){
         round_id: round_id
     }
   }
-  fetch(`http://localhost:3000/api/v1/user_rounds/${currentUserRound.id}`, {
+  fetch (`https://superscript-api.herokuapp.com//${currentUserRound.id}`, {
     method: "PATCH",
     headers: {
       "Content-Type": 'application/json',
@@ -293,6 +293,7 @@ function renderThisGame(currentUser){
       gameGraphics.innerHTML = ''
       gameGraphics.innerHTML = `
         <h1 id="level" class="header"> Level ${currentRound.level} </h1>
+        <!-- <div class="computer-combined"> -->
         <img src='https://uniqueideas.co.uk/wp-content/uploads/2013/09/apple-air.png' id='container'>
           <div id="not-computer">
             <h3 id='username' class="level-text">USERNAME: ${currentUser.name} </h3>
@@ -300,6 +301,7 @@ function renderThisGame(currentUser){
             <img id="background-image" src= ${currentRound.background_image} style="width:850px;height:500px">
             <h3 id='challenge' class="level-text"> Challenge: ${currentRound.challenge} </h3>
           </div>
+        <!-- </div> -->
         <br>
         `
         characterList = []
@@ -572,7 +574,7 @@ function runLevelFiveTest(afterIf){
 function updateUserScore(currentUserScore){
   let userName = currentUser.name
   updatedUserScore = currentUser.score + 20
-  fetch(`http://localhost:3000/api/v1/users/${currentUser.id}`, {
+  fetch (`https://superscript-api.herokuapp.com/users/${currentUser.id}`, {
     method: "PATCH",
     headers: {
       "Content-Type": 'application/json',
@@ -655,12 +657,12 @@ class Character {
   constructor(imgURL) {
     this.element = document.createElement("img");
     // this.element.setAttribute('class', 'img')
-    this.speed = 8;
+    this.speed = 50;
     this.movement = null;
     this.characterAssets = "assets/character";
     this.element.src = imgURL;
     this.element.style.position = "absolute";
-    this.element.style.left = "375px";
+    this.element.style.left = "31%";
     this.element.style.top = "280px";
     this.element.style.width = "200px";
 
@@ -672,8 +674,8 @@ class Character {
     this.movement = setInterval(
       function() {
         let currentPosition = parseInt(this.element.style.left);
-        this.element.style.left = currentPosition + 1 + "px";
-        if (currentPosition == 920) {
+        this.element.style.left = currentPosition + 1 + "%";
+        if (currentPosition == "60") {
           this.stop()
           renderSomething(this.element, currentUser)
         }
